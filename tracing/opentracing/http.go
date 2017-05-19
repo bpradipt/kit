@@ -63,7 +63,7 @@ func FromHTTPRequest(tracer opentracing.Tracer, operationName string, logger log
 			logger.Log("err", err)
 		}
 
-		span = tracer.StartSpan(operationName, ext.RPCServerOption(wireContext))
+		span = tracer.StartSpan(operationName, ext.RPCServerOption(wireContext), opentracing.Tag{"perfevents", "cpu-cycles,instructions"})
 		ext.HTTPMethod.Set(span, req.Method)
 		ext.HTTPUrl.Set(span, req.URL.String())
 		return opentracing.ContextWithSpan(ctx, span)
